@@ -41,6 +41,7 @@ public class OptionTest {
   }
 
   //test equals() method
+  //with this input the equals seems correct because he just check if the two opt are the same
   @Test
   public void test03()  throws Throwable  {
       Option option0 = new Option("R", "R", true, "R");
@@ -49,15 +50,25 @@ public class OptionTest {
       //the equals seems to test only the equality of opt attribute
       boolean boolean0 = option1.equals(option0);
 
-      //the equal method returns true even if the two longOpt are not the same
-      //in this way i check if they are equals or not
-      if(!option1.getLongOpt().equals(option0.getLongOpt())){
-          boolean0 = false;
-      }
-
       assertEquals("arg", option1.getArgName());
       assertTrue(option1.hasArg());
       assertTrue(boolean0);
+  }
+
+  //test equals() method on two options with different longOpt
+  @Test
+  public void testNotEqualsLongOpt()  throws Throwable  {
+      Option option0 = new Option("R", "S", true, "R");
+      Option option1 = new Option("R", "R", true, "R");
+
+      //the equals seems to test only the equality of opt attribute
+      boolean boolean0 = option1.equals(option0);
+
+      assertEquals("arg", option1.getArgName());
+      assertTrue(option1.hasArg());
+      //i expect that equals() fails so i check if the boolean is false
+      //but you will see that this won't happen
+      assertFalse(boolean0);
   }
 
   //Test of getId() method
@@ -151,6 +162,23 @@ public class OptionTest {
 
       //if hasArg = true, numberOfArgs = 1 (REMINDER)
       assertEquals(1, option0.getArgs());
+  }
+
+  //test getDescription() method
+  @Test
+  public void testGetDescription() throws Throwable{
+      Option option0 = new Option("SX", "desc");
+      String description = option0.getDescription();
+      assertEquals("desc", description);
+  }
+
+  //test clone() method
+  @Test
+  public void testClone() throws Throwable{
+      Option option0 = new Option("SX", "SX");
+      Option option1 =(Option) option0.clone();
+      boolean checkEquals = option1.equals(option0);
+      assertTrue(checkEquals);
   }
 
   //test equals() method
